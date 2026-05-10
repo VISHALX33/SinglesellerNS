@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Mail, Lock, User, ArrowRight, Globe } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api';
+import '../styles/AuthPage.css';
 
 const AuthPage = ({ onLogin }) => {
   const [isLogin, setIsLogin] = useState(true);

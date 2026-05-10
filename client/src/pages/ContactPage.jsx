@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
+import '../styles/ContactPage.css';
 
 const ContactPage = ({ settings = {} }) => {
   const [submitted, setSubmitted] = useState(false);

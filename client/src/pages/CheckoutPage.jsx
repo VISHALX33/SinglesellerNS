@@ -3,6 +3,7 @@ import api from '../api';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircle, CreditCard, Truck } from 'lucide-react';
 import { motion } from 'framer-motion';
+import '../styles/CheckoutPage.css';
 
 const CheckoutPage = ({ cart, clearCart, settings, userInfo }) => {
   const navigate = useNavigate();

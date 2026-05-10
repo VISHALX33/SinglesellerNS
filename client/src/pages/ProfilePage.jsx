@@ -4,6 +4,7 @@ import { User, ShoppingBag, Heart, MapPin, LogOut, ChevronRight, Settings, Trash
 import api from '../api';
 import config from '../config';
 import ProductCard from '../components/ProductCard';
+import '../styles/ProfilePage.css';
 
 const ProfilePage = ({ userInfo, onLogout }) => {
   const [profile, setProfile] = useState(null);

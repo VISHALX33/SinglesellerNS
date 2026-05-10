@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { Search, Package, Truck, CheckCircle, Clock, AlertCircle } from 'lucide-react';
+import '../styles/OrderTrackingPage.css';
 
 const OrderTrackingPage = ({ settings }) => {
   const [orderId, setOrderId] = useState('');

@@ -1,0 +1,265 @@
+.track-order-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 4rem 1rem;
+}
+
+.track-hero {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 4rem 2rem;
+}
+
+.track-hero h1 {
+  margin-bottom: 2rem;
+}
+
+.track-form {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  border-radius: 1.5rem;
+}
+
+.track-input-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 1rem;
+}
+
+.track-input-group input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  padding: 0.75rem;
+  font-family: inherit;
+}
+
+.track-input-group input:focus {
+  outline: none;
+}
+
+.error-message {
+  max-width: 650px;
+  margin: 1rem auto 2rem;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.order-status-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.order-summary-card {
+  padding: 2rem;
+  border-radius: 1.5rem;
+}
+
+.summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.status-badge {
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--primary);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.summary-content p {
+  margin-bottom: 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.summary-content strong {
+  color: white;
+}
+
+/* Tracking Timeline */
+.tracking-timeline {
+  padding: 2.5rem;
+  border-radius: 1.5rem;
+}
+
+.tracking-timeline h4 {
+  margin-bottom: 2.5rem;
+  font-size: 1.1rem;
+}
+
+.timeline-steps {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  position: relative;
+  opacity: 0.4;
+  transition: opacity 0.3s;
+}
+
+.step-item.active {
+  opacity: 1;
+}
+
+.step-icon-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  position: relative;
+  z-index: 2;
+}
+
+.step-item.active .step-icon-wrapper {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.step-item.current .step-icon-wrapper {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+}
+
+.step-label {
+  font-size: 0.75rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.step-item.active .step-label {
+  color: white;
+}
+
+.step-line {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background: var(--glass-border);
+}
+
+.step-item.active ~ .step-item .step-line,
+.step-item.active .step-line {
+  background: var(--primary);
+}
+
+/* Order Items */
+.order-items-tracking {
+  padding: 2rem;
+  border-radius: 1.5rem;
+}
+
+.order-items-tracking h4 {
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.items-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.tracking-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 0.75rem;
+}
+
+.tracking-item img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 0.5rem;
+}
+
+.item-info .item-name {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.item-info .item-price {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .track-hero {
+    padding: 3rem 1.5rem;
+  }
+
+  .track-input-group {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .track-input-group button {
+    width: 100%;
+  }
+
+  .timeline-steps {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2.5rem;
+    padding-left: 2rem;
+  }
+
+  .step-line {
+    width: 2px !important;
+    height: 40px !important;
+    top: 100% !important;
+    left: 20px !important;
+    transform: none !important;
+  }
+
+  .order-status-container {
+    padding: 0;
+  }
+
+  .order-summary-card, .tracking-timeline, .order-items-tracking {
+    margin-bottom: 1.5rem;
+  }
+}

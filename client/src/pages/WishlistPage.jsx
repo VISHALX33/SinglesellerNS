@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, ShoppingBag, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
+import '../styles/WishlistPage.css';
 
 const WishlistPage = ({ wishlist, toggleWishlist, onAddToCart, settings }) => {
   return (

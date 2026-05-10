@@ -4,6 +4,7 @@ import ProductCard from '../components/ProductCard';
 import FilterSidebar from '../components/FilterSidebar';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSearchParams } from 'react-router-dom';
+import '../styles/CollectionsPage.css';
 
 const CollectionsPage = ({ onAddToCart, toggleWishlist, wishlist = [], searchQuery, settings }) => {
   const [searchParams] = useSearchParams();

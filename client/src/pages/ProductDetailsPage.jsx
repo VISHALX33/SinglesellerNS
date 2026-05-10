@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import StarRating from '../components/StarRating';
 import ProductCard from '../components/ProductCard';
+import '../styles/ProductDetailsPage.css';
 
 const ProductDetailsPage = ({ onAddToCart, toggleWishlist, wishlist = [], settings }) => {
   const { id } = useParams();

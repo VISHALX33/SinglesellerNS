@@ -5,6 +5,7 @@ import api from '../api';
 import config from '../config';
 import { ChevronRight, Zap, Shield, Award, ArrowRight, Truck } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
+import '../styles/HomePage.css';
 
 const HomePage = ({ onAddToCart, toggleWishlist, wishlist = [], settings }) => {
   const [featuredShoes, setFeaturedShoes] = useState([]);

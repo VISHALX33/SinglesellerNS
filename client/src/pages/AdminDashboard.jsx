@@ -36,6 +36,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import StarRating from '../components/StarRating';
+import '../styles/AdminDashboard.css';
 
 const AdminDashboard = ({ settings, setSettings, refreshSettings }) => {
   const [activeTab, setActiveTab] = useState('overview');

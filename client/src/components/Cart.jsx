@@ -2,6 +2,7 @@ import React from 'react';
 import { X, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import config from '../config';
+import '../styles/Cart.css';
 
 const Cart = ({ isOpen, onClose, items, onRemove, currency = '$' }) => {
   const navigate = useNavigate();

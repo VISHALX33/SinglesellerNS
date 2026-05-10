@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Lock, Mail, Eye, EyeOff } from 'lucide-react';
 import { motion } from 'framer-motion';
+import '../styles/AdminDashboard.css';
 
 const AdminLoginPage = ({ onLogin }) => {
   const [email, setEmail] = useState('');

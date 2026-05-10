@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 import config from '../config';
+import '../styles/ProductCard.css';
 
 const ProductCard = ({ product, onAddToCart, currency = '$', wishlist = [], toggleWishlist }) => {
   if (!product) return null;

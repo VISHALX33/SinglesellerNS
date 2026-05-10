@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingCart, Search, Mail, Grid, Heart, Truck, User } from 'lucide-react';
+import '../styles/Navbar.css';
 
 const Navbar = ({ cartCount, wishlistCount, onCartToggle, onSearchChange, searchQuery, storeName = 'VELOCIS SHOES', userInfo }) => {
   const location = useLocation();

@@ -1,0 +1,100 @@
+.footer-main {
+  margin-top: 8rem;
+  padding: 6rem 0 2rem;
+  border-top: 1px solid var(--glass-border);
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr;
+  gap: 6rem;
+  margin-bottom: 5rem;
+}
+
+.footer-brand .logo {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  display: inline-block;
+}
+
+.brand-desc {
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  max-width: 300px;
+}
+
+.social-links {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.social-links a {
+  width: 42px;
+  height: 42px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.social-links a:hover {
+  transform: translateY(-5px) scale(1.1);
+  color: white;
+}
+
+.social-links a.instagram:hover { background: #E1306C; box-shadow: 0 10px 20px rgba(225, 48, 108, 0.4); border-color: #E1306C; }
+.social-links a.facebook:hover { background: #1877F2; box-shadow: 0 10px 20px rgba(24, 119, 242, 0.4); border-color: #1877F2; }
+.social-links a.whatsapp:hover { background: #25D366; box-shadow: 0 10px 20px rgba(37, 211, 102, 0.4); border-color: #25D366; }
+.social-links a.telegram:hover { background: #0088cc; box-shadow: 0 10px 20px rgba(0, 136, 204, 0.4); border-color: #0088cc; }
+
+.footer-links h4, .footer-contact h4 {
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.footer-links ul, .footer-contact ul { list-style: none; }
+
+.footer-links li, .footer-contact li {
+  margin-bottom: 1rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.footer-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover { color: var(--primary); }
+
+.footer-bottom {
+  border-top: 1px solid var(--glass-border);
+  padding-top: 2rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+    text-align: center;
+  }
+  .brand-desc { margin: 1.5rem auto 2rem; }
+  .social-links { justify-content: center; }
+  .footer-links li, .footer-contact li { justify-content: center; }
+}

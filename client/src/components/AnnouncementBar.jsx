@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Truck, Tag } from 'lucide-react';
+import '../styles/AnnouncementBar.css';
 
 const AnnouncementBar = ({ settings }) => {
   const [index, setIndex] = useState(0);

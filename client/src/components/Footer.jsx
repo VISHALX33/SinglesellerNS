@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import { FaInstagram, FaFacebookF, FaWhatsapp, FaTelegramPlane } from 'react-icons/fa';
+import '../styles/Footer.css';
 
 const Footer = ({ settings }) => {
   const { 
