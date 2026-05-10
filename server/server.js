@@ -300,6 +300,16 @@ app.post('/api/admin/orders/update-status/:id', async (req, res) => {
     }
 });
 
+// Get user's orders
+app.get('/api/orders/myorders', protect, async (req, res) => {
+    try {
+        const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
+        res.json(orders);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch orders' });
+    }
+});
+
 // Track Order (Customer)
 app.get('/api/orders/track/:id', async (req, res) => {
     try {
@@ -318,15 +328,7 @@ app.get('/api/orders/track/:id', async (req, res) => {
     }
 });
 
-// Get user's orders
-app.get('/api/orders/myorders', protect, async (req, res) => {
-    try {
-        const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
-        res.json(orders);
-    } catch (err) {
-        res.status(500).json({ error: 'Failed to fetch orders' });
-    }
-});
+
 
 // Routes
 // EJS Route

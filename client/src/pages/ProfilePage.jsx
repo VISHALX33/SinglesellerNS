@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { User, ShoppingBag, Heart, MapPin, LogOut, ChevronRight, Settings } from 'lucide-react';
 import api from '../api';
+import config from '../config';
 import ProductCard from '../components/ProductCard';
 
 const ProfilePage = ({ userInfo, onLogout }) => {
