@@ -4022,8 +4022,11 @@ input:checked ~ .toggle-label {
 
 /* Profile Specific */
 .profile-container {
-  align-items: flex-start;
-  padding-top: 10rem;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-top: 8rem;
+  padding-bottom: 5rem;
 }
 
 .profile-layout {
@@ -4036,11 +4039,11 @@ input:checked ~ .toggle-label {
 }
 
 .profile-sidebar {
-  padding: 3rem 1.5rem;
+  padding: 2.5rem 1.5rem;
   border-radius: 2rem;
   height: fit-content;
   position: sticky;
-  top: 8rem;
+  top: 6rem;
 }
 
 .user-profile-header {
@@ -4542,10 +4545,17 @@ input:checked ~ .toggle-label {
     padding-right: 1rem;
   }
   
+  .profile-layout {
+    grid-template-columns: 1fr;
+    width: 100%;
+    gap: 1.5rem;
+  }
+
   .profile-sidebar {
     padding: 1.5rem;
     border-radius: 1.5rem;
     margin-bottom: 1rem;
+    position: static;
   }
 
   .user-profile-header {
