@@ -94,6 +94,23 @@ function App() {
     localStorage.setItem('wishlist', JSON.stringify(wishlist));
   }, [wishlist]);
 
+  useEffect(() => {
+    const syncUserWishlist = async () => {
+      try {
+        const { data } = await api.get('/api/users/profile');
+        setWishlist(data.wishlist || []);
+      } catch (err) {
+        console.error('Wishlist sync failed', err);
+      }
+    };
+
+    if (userInfo) {
+      syncUserWishlist();
+    } else {
+      setWishlist([]);
+    }
+  }, [userInfo]);
+
   const toggleWishlist = async (product) => {
     if (!userInfo) {
       navigate('/auth');
@@ -131,7 +148,9 @@ function App() {
 
   const handleLogout = () => {
     localStorage.removeItem('userInfo');
+    localStorage.removeItem('wishlist');
     setUserInfo(null);
+    setWishlist([]);
   };
 
   return (
