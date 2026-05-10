@@ -594,8 +594,31 @@
 
   .section-title { font-size: 2.2rem; margin-bottom: 2rem; }
   .product-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-  
   .cart-sidebar { width: 100%; right: -100%; }
+
+  /* Collections Mobile */
+  .store-main-layout {
+    grid-template-columns: 1fr;
+    padding: 1rem 0;
+  }
+  
+  .filter-sidebar {
+    position: static;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 1rem;
+    gap: 1.5rem;
+    scrollbar-width: none;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .filter-sidebar::-webkit-scrollbar { display: none; }
+  .filter-header { display: none; }
+  .filter-section { margin-bottom: 0; flex-shrink: 0; min-width: 160px; }
+  .filter-options { flex-direction: row; flex-wrap: nowrap; overflow-x: auto; }
 }
 
 @media (max-width: 480px) {
@@ -603,6 +626,31 @@
   .shoe-name { font-size: 2.5rem; }
   .shoe-price { font-size: 2rem; }
   .modal-content { padding: 1.5rem; }
+  .checkout-form { padding: 1.5rem; }
+  .form-row { grid-template-columns: 1fr; }
+  .page-header { padding: 4rem 1.5rem; }
+}
+
+/* Global Responsive Fixes */
+@media (max-width: 768px) {
+  .checkout-container {
+    padding: 2rem 1rem;
+  }
+  .checkout-grid {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .order-summary {
+    position: static;
+    margin-bottom: 2rem;
+  }
+  .details-image {
+    min-height: 300px;
+    padding: 1rem;
+  }
+  .shoe-name {
+    font-size: 2.5rem;
+  }
 }
 
 /* Product Details Page */
