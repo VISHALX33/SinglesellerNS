@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from '../api';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircle, CreditCard, Truck } from 'lucide-react';
@@ -16,8 +16,43 @@ const CheckoutPage = ({ cart, clearCart, settings, userInfo }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isOrdered, setIsOrdered] = useState(false);
   const [orderId, setOrderId] = useState('');
+  const [addresses, setAddresses] = useState([]);
+  const [selectedAddressIdx, setSelectedAddressIdx] = useState(-1);
 
   const totalPrice = cart.reduce((sum, item) => sum + item.price, 0);
+
+  useEffect(() => {
+    const fetchAddresses = async () => {
+      try {
+        const { data } = await api.get('/api/users/profile');
+        setAddresses(data.addresses || []);
+        // Pre-fill with name and email if logged in
+        setFormData(prev => ({
+          ...prev,
+          name: data.name || prev.name,
+          email: data.email || prev.email
+        }));
+      } catch (err) {
+        console.error('Failed to fetch profile for addresses', err);
+      }
+    };
+    if (userInfo) fetchAddresses();
+  }, [userInfo]);
+
+  const handleSelectAddress = (idx) => {
+    setSelectedAddressIdx(idx);
+    if (idx === -1) {
+      setFormData({ ...formData, address: '', city: '', zip: '' });
+    } else {
+      const addr = addresses[idx];
+      setFormData({
+        ...formData,
+        address: addr.street,
+        city: addr.city,
+        zip: addr.zipCode
+      });
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -131,6 +166,32 @@ const CheckoutPage = ({ cart, clearCart, settings, userInfo }) => {
         <form className="checkout-form glass" onSubmit={handleSubmit}>
           <div className="form-section">
             <h3><Truck size={20} /> Shipping Details</h3>
+            
+            {addresses.length > 0 && (
+              <div className="saved-addresses-selector">
+                <label>Use a saved address:</label>
+                <div className="address-options">
+                  <button 
+                    type="button"
+                    className={`addr-opt glass ${selectedAddressIdx === -1 ? 'active' : ''}`}
+                    onClick={() => handleSelectAddress(-1)}
+                  >
+                    Custom
+                  </button>
+                  {addresses.map((addr, idx) => (
+                    <button 
+                      key={idx}
+                      type="button"
+                      className={`addr-opt glass ${selectedAddressIdx === idx ? 'active' : ''}`}
+                      onClick={() => handleSelectAddress(idx)}
+                    >
+                      {addr.city} ({addr.street.slice(0, 10)}...)
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <input 
               type="text" placeholder="Full Name" required 
               value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})}
