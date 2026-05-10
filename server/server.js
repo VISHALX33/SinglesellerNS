@@ -20,7 +20,7 @@ const razorpay = new Razorpay({
 
 // Middleware
 app.use(cors({
-    origin: ['https://singlesellerns.netlify.app', 'http://localhost:5173', 'http://localhost:3000'],
+    origin: ['https://singleseller-ns.netlify.app', 'http://localhost:5173', 'http://localhost:3000'],
     credentials: true
 }));
 app.use(morgan('dev'));
@@ -153,21 +153,21 @@ app.post('/api/users/wishlist/:shoeId', protect, async (req, res) => {
     try {
         const shoeId = req.params.shoeId;
         const user = await User.findById(req.user._id);
-        
+
         if (!user) return res.status(404).json({ error: 'User not found' });
 
         const isWishlisted = user.wishlist.some(id => id.toString() === shoeId);
-        
-        const update = isWishlisted 
-            ? { $pull: { wishlist: shoeId } } 
+
+        const update = isWishlisted
+            ? { $pull: { wishlist: shoeId } }
             : { $addToSet: { wishlist: shoeId } };
 
         const updatedUser = await User.findByIdAndUpdate(
-            req.user._id, 
-            update, 
+            req.user._id,
+            update,
             { new: true }
         ).select('-password');
-        
+
         res.json(updatedUser.wishlist);
     } catch (err) {
         console.error('Wishlist update error:', err);
@@ -183,7 +183,7 @@ app.get('/api/settings', async (req, res) => {
             acc[curr.key] = curr.value;
             return acc;
         }, {});
-        
+
         // Default values if not found
         if (!settingsMap.currency) settingsMap.currency = '$';
         if (!settingsMap.storeName) settingsMap.storeName = 'VELOCIS SHOES';
@@ -200,7 +200,7 @@ app.get('/api/settings', async (req, res) => {
         if (!settingsMap.whatsapp) settingsMap.whatsapp = '';
         if (!settingsMap.telegram) settingsMap.telegram = '';
         if (!settingsMap.savedThemes) settingsMap.savedThemes = [];
-        
+
         res.json(settingsMap);
     } catch (err) {
         res.status(500).json({ error: 'Failed to fetch settings' });
@@ -210,7 +210,7 @@ app.get('/api/settings', async (req, res) => {
 app.post('/api/settings', async (req, res) => {
     try {
         const { currency, storeName, contactEmail, contactPhone, contactAddress, instagram, facebook, twitter, announcement, primaryColor, secondaryColor, whatsapp, telegram, showSocial, savedThemes } = req.body;
-        
+
         const updates = [
             { key: 'currency', value: currency },
             { key: 'storeName', value: storeName },
@@ -229,7 +229,7 @@ app.post('/api/settings', async (req, res) => {
             { key: 'savedThemes', value: savedThemes }
         ];
 
-        await Promise.all(updates.map(u => 
+        await Promise.all(updates.map(u =>
             Settings.findOneAndUpdate(
                 { key: u.key },
                 { value: u.value },
@@ -287,7 +287,7 @@ app.delete('/api/admin/contacts/:id', async (req, res) => {
 app.get('/api/admin/analytics', async (req, res) => {
     try {
         const orders = await Order.find();
-        
+
         // 1. Sales by day (Last 7 days)
         const salesByDay = {};
         const now = new Date();
@@ -408,12 +408,12 @@ app.post('/api/shoes/:id/reviews', async (req, res) => {
     try {
         const { name, rating, comment } = req.body;
         const shoe = await Shoe.findById(req.params.id);
-        
+
         if (!shoe) return res.status(404).json({ error: 'Product not found' });
 
         const review = { name, rating: Number(rating), comment };
         shoe.reviews.push(review);
-        
+
         shoe.numReviews = shoe.reviews.length;
         shoe.averageRating = shoe.reviews.reduce((acc, item) => item.rating + acc, 0) / shoe.reviews.length;
 
@@ -430,10 +430,10 @@ app.delete('/api/admin/reviews/:shoeId/:reviewId', async (req, res) => {
         if (!shoe) return res.status(404).json({ error: 'Product not found' });
 
         shoe.reviews = shoe.reviews.filter(r => r._id.toString() !== req.params.reviewId);
-        
+
         shoe.numReviews = shoe.reviews.length;
-        shoe.averageRating = shoe.reviews.length > 0 
-            ? shoe.reviews.reduce((acc, item) => item.rating + acc, 0) / shoe.reviews.length 
+        shoe.averageRating = shoe.reviews.length > 0
+            ? shoe.reviews.reduce((acc, item) => item.rating + acc, 0) / shoe.reviews.length
             : 0;
 
         await shoe.save();
@@ -446,10 +446,10 @@ app.delete('/api/admin/reviews/:shoeId/:reviewId', async (req, res) => {
 app.get('/api/admin/reviews', async (req, res) => {
     try {
         const shoes = await Shoe.find().select('name reviews');
-        const allReviews = shoes.flatMap(s => s.reviews.map(r => ({ 
-            ...r.toObject(), 
-            shoeName: s.name, 
-            shoeId: s._id 
+        const allReviews = shoes.flatMap(s => s.reviews.map(r => ({
+            ...r.toObject(),
+            shoeName: s.name,
+            shoeId: s._id
         })));
         res.json(allReviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
     } catch (err) {
@@ -531,7 +531,7 @@ app.post('/api/orders', async (req, res) => {
         });
 
         const savedOrder = await newOrder.save();
-        
+
         res.status(201).json({
             order: savedOrder,
             razorpayOrder: razorpayOrder,
@@ -541,15 +541,15 @@ app.post('/api/orders', async (req, res) => {
     } catch (err) {
         console.error('Order creation error:', err);
         // Provide more descriptive error if it's likely a Razorpay credential issue
-        if (process.env.RAZORPAY_KEY_ID === 'your_razorpay_key_id' || 
+        if (process.env.RAZORPAY_KEY_ID === 'your_razorpay_key_id' ||
             process.env.RAZORPAY_KEY_SECRET === 'your_razorpay_key_secret') {
-            return res.status(500).json({ 
+            return res.status(500).json({
                 error: 'Razorpay keys not configured. Please update your .env file with valid test keys.',
-                details: err.message 
+                details: err.message
             });
         }
-        res.status(500).json({ 
-            error: 'Failed to create order', 
+        res.status(500).json({
+            error: 'Failed to create order',
             message: err.message,
             stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
         });
