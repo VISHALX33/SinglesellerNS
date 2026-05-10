@@ -4031,19 +4031,19 @@ input:checked ~ .toggle-label {
 
 .profile-layout {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1300px;
   display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 2rem;
+  grid-template-columns: 320px 1fr;
+  gap: 3rem;
   z-index: 10;
 }
 
 .profile-sidebar {
-  padding: 2.5rem 1.5rem;
-  border-radius: 2rem;
+  padding: 3rem 2rem;
+  border-radius: 2.5rem;
   height: fit-content;
   position: sticky;
-  top: 6rem;
+  top: 7rem;
 }
 
 .user-profile-header {
@@ -4160,13 +4160,20 @@ input:checked ~ .toggle-label {
 
 @media (max-width: 1024px) {
   .profile-layout {
-    grid-template-columns: 1fr;
-    gap: 2rem;
+    grid-template-columns: 250px 1fr;
+    gap: 1.5rem;
   }
   .profile-sidebar {
-    position: relative;
-    top: 0;
-    padding: 2rem 1.5rem;
+    padding: 1.5rem 1rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .profile-layout {
+    grid-template-columns: 1fr;
+  }
+  .profile-sidebar {
+    position: static;
   }
 }
 
