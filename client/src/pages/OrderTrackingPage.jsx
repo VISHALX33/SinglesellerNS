@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import axios from 'axios';
+import api from '../api';
 import { Search, Package, Truck, CheckCircle, Clock, AlertCircle } from 'lucide-react';
 import '../styles/OrderTrackingPage.css';
 
@@ -16,7 +16,7 @@ const OrderTrackingPage = ({ settings }) => {
     setLoading(true);
     setError(null);
     try {
-      const res = await axios.get(`/api/orders/track/${orderId}`);
+      const res = await api.get(`/api/orders/track/${orderId}`);
       setOrder(res.data);
     } catch (err) {
       setError('Order not found. Please check your Order ID.');

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import ProductCard from '../components/ProductCard';
 import FilterSidebar from '../components/FilterSidebar';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -31,7 +31,7 @@ const CollectionsPage = ({ onAddToCart, toggleWishlist, wishlist = [], searchQue
   useEffect(() => {
     const fetchShoes = async () => {
       try {
-        const response = await axios.get('/api/shoes');
+        const response = await api.get('/api/shoes');
         setShoes(response.data);
         setFilteredShoes(response.data);
         setLoading(false);

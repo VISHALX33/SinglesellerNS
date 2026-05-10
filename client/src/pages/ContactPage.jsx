@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { motion } from 'framer-motion';
-import axios from 'axios';
+import api from '../api';
 import '../styles/ContactPage.css';
 
 const ContactPage = ({ settings = {} }) => {
@@ -25,7 +25,7 @@ const ContactPage = ({ settings = {} }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post('/api/contact', formData);
+      await api.post('/api/contact', formData);
       setSubmitted(true);
     } catch (err) {
       alert('Failed to send message. Please try again.');
