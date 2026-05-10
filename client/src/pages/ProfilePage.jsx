@@ -228,7 +228,7 @@ const ProfilePage = ({ userInfo, onLogout }) => {
               <div className="profile-addresses">
                 <div className="section-header-flex">
                   <h2 className="section-title left small">My <span className="gradient-text">Addresses</span></h2>
-                  <button className="btn-secondary small" onClick={() => setShowAddressForm(!showAddressForm)}>
+                  <button className="btn-primary small" onClick={() => setShowAddressForm(!showAddressForm)}>
                     {showAddressForm ? 'Cancel' : 'Add New Address'}
                   </button>
                 </div>
@@ -294,10 +294,10 @@ const ProfilePage = ({ userInfo, onLogout }) => {
                               <Trash2 size={16} />
                            </button>
                         </div>
-                        <p><strong>Street:</strong> {addr.street}</p>
-                        <p><strong>City:</strong> {addr.city}</p>
-                        <p><strong>State/ZIP:</strong> {addr.state} - {addr.zipCode}</p>
-                        <p><strong>Country:</strong> {addr.country}</p>
+                        <p><strong>Street:</strong> <span className="val">{addr.street}</span></p>
+                        <p><strong>City:</strong> <span className="val">{addr.city}</span></p>
+                        <p><strong>State/ZIP:</strong> <span className="val">{addr.state} - {addr.zipCode}</span></p>
+                        <p><strong>Country:</strong> <span className="val">{addr.country}</span></p>
                       </div>
                     ))}
                   </div>

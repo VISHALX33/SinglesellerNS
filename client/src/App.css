@@ -4254,42 +4254,65 @@ input:checked ~ .toggle-label {
 .address-card-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 0.75rem;
 }
 
 .default-badge {
-  background: var(--primary);
-  color: white;
-  padding: 0.2rem 0.6rem;
+  background: var(--primary-glow);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  padding: 0.3rem 0.7rem;
   border-radius: 0.5rem;
   font-size: 0.65rem;
   font-weight: 700;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .delete-addr-btn {
-  background: none;
-  border: none;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
   color: #ef4444;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  opacity: 0.6;
-  transition: opacity 0.3s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .delete-addr-btn:hover {
-  opacity: 1;
+  background: #ef4444;
+  color: white;
+  transform: scale(1.1) rotate(10deg);
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
 }
 
 .address-card p {
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
   color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
 }
 
 .address-card strong {
   color: white;
   font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.7;
+}
+
+.address-card .val {
+  color: white;
+  font-weight: 500;
 }
 
 /* Address Form */
