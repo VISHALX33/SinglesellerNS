@@ -125,10 +125,10 @@ const ProfilePage = ({ userInfo, onLogout }) => {
                     {profile.wishlist.map(shoe => (
                       <ProductCard 
                         key={shoe._id}
-                        shoe={shoe}
+                        product={shoe}
                         onAddToCart={() => {}}
                         currency="₹"
-                        wishlist={profile.wishlist.map(w => w._id)}
+                        wishlist={profile.wishlist}
                         toggleWishlist={() => {}}
                       />
                     ))}
