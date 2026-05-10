@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { User, ShoppingBag, Heart, MapPin, LogOut, ChevronRight, Settings, Trash2 } from 'lucide-react';
+import { User, ShoppingBag, Heart, MapPin, LogOut, ChevronRight, Settings, Trash2, Menu, X } from 'lucide-react';
 import api from '../api';
 import config from '../config';
 import ProductCard from '../components/ProductCard';
@@ -9,6 +9,7 @@ const ProfilePage = ({ userInfo, onLogout }) => {
   const [profile, setProfile] = useState(null);
   const [orders, setOrders] = useState([]);
   const [activeSection, setActiveSection] = useState('overview');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [newAddress, setNewAddress] = useState({
     street: '',
@@ -76,9 +77,28 @@ const ProfilePage = ({ userInfo, onLogout }) => {
         <div className="orb orb-pink" style={{ bottom: '20%', right: '10%' }}></div>
       </div>
 
+      <div className="profile-mobile-header glass">
+        <button className="sidebar-toggle" onClick={() => setIsSidebarOpen(true)}>
+          <Menu size={24} />
+          <span>Profile Menu</span>
+        </button>
+      </div>
+
       <div className="profile-layout">
-        {/* Sidebar */}
-        <aside className="profile-sidebar glass">
+        {/* Sidebar Drawer for Mobile */}
+        {isSidebarOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="sidebar-backdrop"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+        )}
+
+        <aside className={`profile-sidebar glass ${isSidebarOpen ? 'open' : ''}`}>
+          <button className="close-sidebar" onClick={() => setIsSidebarOpen(false)}>
+            <X size={24} />
+          </button>
           <div className="user-profile-header">
             <div className="avatar-large gradient-border">
               {profile.name.charAt(0)}
@@ -90,25 +110,25 @@ const ProfilePage = ({ userInfo, onLogout }) => {
           <nav className="profile-nav">
             <button 
               className={`p-nav-btn ${activeSection === 'overview' ? 'active' : ''}`}
-              onClick={() => setActiveSection('overview')}
+              onClick={() => { setActiveSection('overview'); setIsSidebarOpen(false); }}
             >
               <User size={20} /> Dashboard
             </button>
             <button 
               className={`p-nav-btn ${activeSection === 'orders' ? 'active' : ''}`}
-              onClick={() => setActiveSection('orders')}
+              onClick={() => { setActiveSection('orders'); setIsSidebarOpen(false); }}
             >
               <ShoppingBag size={20} /> My Orders
             </button>
             <button 
               className={`p-nav-btn ${activeSection === 'wishlist' ? 'active' : ''}`}
-              onClick={() => setActiveSection('wishlist')}
+              onClick={() => { setActiveSection('wishlist'); setIsSidebarOpen(false); }}
             >
               <Heart size={20} /> Wishlist
             </button>
             <button 
               className={`p-nav-btn ${activeSection === 'addresses' ? 'active' : ''}`}
-              onClick={() => setActiveSection('addresses')}
+              onClick={() => { setActiveSection('addresses'); setIsSidebarOpen(false); }}
             >
               <MapPin size={20} /> Addresses
             </button>
