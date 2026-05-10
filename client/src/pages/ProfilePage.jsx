@@ -74,12 +74,6 @@ const ProfilePage = ({ userInfo, onLogout }) => {
             >
               <MapPin size={20} /> Addresses
             </button>
-            <button 
-              className={`p-nav-btn ${activeSection === 'settings' ? 'active' : ''}`}
-              onClick={() => setActiveSection('settings')}
-            >
-              <Settings size={20} /> Settings
-            </button>
             <button className="p-nav-btn logout" onClick={onLogout}>
               <LogOut size={20} /> Logout
             </button>
@@ -158,7 +152,7 @@ const ProfilePage = ({ userInfo, onLogout }) => {
                         <div className="order-main-info">
                           <div className="order-id-grp">
                             <span className="label">Order ID</span>
-                            <span className="val">#{order._id.slice(-6)}</span>
+                            <span className="val">#{order._id}</span>
                           </div>
                           <div className="order-status-grp">
                              <span className={`status-pill ${order.status.toLowerCase().replace(/\s+/g, '-')}`}>{order.status}</span>
@@ -192,11 +186,27 @@ const ProfilePage = ({ userInfo, onLogout }) => {
               </div>
             )}
             
-            {/* Other sections can be added here */}
-            {['addresses', 'settings'].includes(activeSection) && (
-              <div className="placeholder-section">
-                <h2 className="section-title left small">{activeSection} <span className="gradient-text">Section</span></h2>
-                <p>This feature is coming soon to your premium dashboard!</p>
+            {activeSection === 'addresses' && (
+              <div className="profile-addresses">
+                <h2 className="section-title left small">My <span className="gradient-text">Addresses</span></h2>
+                {profile.addresses?.length > 0 ? (
+                  <div className="address-grid">
+                    {profile.addresses.map((addr, idx) => (
+                      <div key={idx} className="address-card glass">
+                        {addr.isDefault && <span className="default-badge">Default</span>}
+                        <p><strong>Street:</strong> {addr.street}</p>
+                        <p><strong>City:</strong> {addr.city}</p>
+                        <p><strong>State/ZIP:</strong> {addr.state} - {addr.zipCode}</p>
+                        <p><strong>Country:</strong> {addr.country}</p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="empty-state">
+                    <MapPin size={48} className="text-muted" />
+                    <p>No addresses saved yet.</p>
+                  </div>
+                )}
               </div>
             )}
           </motion.div>
