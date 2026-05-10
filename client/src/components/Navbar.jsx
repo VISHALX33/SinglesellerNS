@@ -38,13 +38,15 @@ const Navbar = ({ cartCount, wishlistCount, onCartToggle, onSearchChange, search
           <Grid size={18} />
           <span>Collection</span>
         </Link>
-        <Link to="/wishlist" className="nav-link">
-          <div className="cart-icon-wrapper">
-            <Heart size={18} />
-            {wishlistCount > 0 && <span className="cart-badge">{wishlistCount}</span>}
-          </div>
-          <span>Wishlist</span>
-        </Link>
+        {userInfo && (
+          <Link to="/wishlist" className="nav-link">
+            <div className="cart-icon-wrapper">
+              <Heart size={18} />
+              {wishlistCount > 0 && <span className="cart-badge">{wishlistCount}</span>}
+            </div>
+            <span>Wishlist</span>
+          </Link>
+        )}
         <Link to="/track-order" className="nav-link">
           <Truck size={18} />
           <span>Track Order</span>
