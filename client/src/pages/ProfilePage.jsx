@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { User, ShoppingBag, Heart, MapPin, LogOut, ChevronRight, Settings } from 'lucide-react';
-import axios from 'axios';
+import api from '../api';
 import ProductCard from '../components/ProductCard';
 
 const ProfilePage = ({ userInfo, onLogout }) => {
@@ -11,12 +11,13 @@ const ProfilePage = ({ userInfo, onLogout }) => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const { data } = await axios.get('http://localhost:5001/api/users/profile', {
-          headers: { Authorization: `Bearer ${userInfo.token}` }
-        });
+        const { data } = await api.get('/api/users/profile');
         setProfile(data);
       } catch (err) {
         console.error(err);
+        if (err.response?.status === 401) {
+          onLogout();
+        }
       }
     };
     if (userInfo) fetchProfile();

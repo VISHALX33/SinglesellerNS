@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
+import config from '../config';
 
 const ProductCard = ({ product, onAddToCart, currency = '$', wishlist = [], toggleWishlist }) => {
   const isWishlisted = wishlist.some(item => item._id === product._id);
   const primaryImage = product.images && product.images[0] 
-    ? (product.images[0].startsWith('http') ? product.images[0] : `http://localhost:5001${product.images[0]}`)
+    ? (product.images[0].startsWith('http') ? product.images[0] : `${config.API_URL}${product.images[0]}`)
     : '';
 
   const hasDiscount = product.discountPrice && product.discountPrice < product.price;

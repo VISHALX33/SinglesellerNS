@@ -51,6 +51,9 @@ const protect = async (req, res, next) => {
             token = req.headers.authorization.split(' ')[1];
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             req.user = await User.findById(decoded.id).select('-password');
+            if (!req.user) {
+                return res.status(401).json({ error: 'User no longer exists' });
+            }
             next();
         } else {
             res.status(401).json({ error: 'Not authorized, no token' });
@@ -105,10 +108,11 @@ app.post('/api/users/login', async (req, res) => {
 
 app.get('/api/users/profile', protect, async (req, res) => {
     try {
-        const user = await User.findById(req.user._id).select('-password').populate('wishlist');
+        const user = await req.user.populate('wishlist');
         res.json(user);
     } catch (err) {
-        res.status(500).json({ error: 'Failed to fetch profile' });
+        console.error('Profile fetch error:', err);
+        res.status(500).json({ error: 'Failed to fetch profile', details: err.message });
     }
 });
 

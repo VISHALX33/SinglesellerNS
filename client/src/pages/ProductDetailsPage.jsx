@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
+import config from '../config';
 import { ChevronLeft, ShoppingBag, Star, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -26,8 +27,8 @@ const ProductDetailsPage = ({ onAddToCart, toggleWishlist, wishlist = [], settin
   const fetchShoe = async () => {
     try {
       const [shoeRes, relatedRes] = await Promise.all([
-        axios.get(`/api/shoes/${id}`),
-        axios.get(`/api/shoes/${id}/related`)
+        api.get(`/api/shoes/${id}`),
+        api.get(`/api/shoes/${id}/related`)
       ]);
       setShoe(shoeRes.data);
       setRelatedShoes(relatedRes.data);
@@ -49,7 +50,7 @@ const ProductDetailsPage = ({ onAddToCart, toggleWishlist, wishlist = [], settin
     
     setIsSubmittingReview(true);
     try {
-      await axios.post(`/api/shoes/${id}/reviews`, {
+      await api.post(`/api/shoes/${id}/reviews`, {
         name: reviewName,
         rating: reviewRating,
         comment: reviewComment
@@ -68,7 +69,7 @@ const ProductDetailsPage = ({ onAddToCart, toggleWishlist, wishlist = [], settin
   if (loading) return <div className="loading-page">Preparing Velocis Details...</div>;
   if (!shoe) return <div className="error-page">Product not found.</div>;
 
-  const getImageUrl = (url) => url.startsWith('http') ? url : `http://localhost:5001${url}`;
+  const getImageUrl = (url) => url.startsWith('http') ? url : `${config.API_URL}${url}`;
 
   return (
     <div className="product-details-container">

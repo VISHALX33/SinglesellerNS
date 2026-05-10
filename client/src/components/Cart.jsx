@@ -1,6 +1,7 @@
 import React from 'react';
 import { X, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import config from '../config';
 
 const Cart = ({ isOpen, onClose, items, onRemove, currency = '$' }) => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const Cart = ({ isOpen, onClose, items, onRemove, currency = '$' }) => {
         ) : (
           items.map((item, idx) => (
             <div key={idx} className="cart-item">
-              <img src={item.image && item.image.startsWith('http') ? item.image : `http://localhost:5001${item.image}`} alt={item.name} />
+              <img src={item.image && item.image.startsWith('http') ? item.image : `${config.API_URL}${item.image}`} alt={item.name} />
               <div className="item-details">
                 <h4>{item.name}</h4>
                 <p>{currency}{item.price}</p>
