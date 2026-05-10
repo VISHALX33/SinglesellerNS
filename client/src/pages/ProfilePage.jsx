@@ -6,13 +6,18 @@ import ProductCard from '../components/ProductCard';
 
 const ProfilePage = ({ userInfo, onLogout }) => {
   const [profile, setProfile] = useState(null);
+  const [orders, setOrders] = useState([]);
   const [activeSection, setActiveSection] = useState('overview');
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const { data } = await api.get('/api/users/profile');
-        setProfile(data);
+        const [profileRes, ordersRes] = await Promise.all([
+          api.get('/api/users/profile'),
+          api.get('/api/orders/myorders')
+        ]);
+        setProfile(profileRes.data);
+        setOrders(ordersRes.data);
       } catch (err) {
         console.error(err);
         if (err.response?.status === 401) {
@@ -96,7 +101,7 @@ const ProfilePage = ({ userInfo, onLogout }) => {
                     <ShoppingBag size={24} className="text-primary" />
                     <div className="mini-stat-info">
                       <span className="stat-label">Total Orders</span>
-                      <span className="stat-value">0</span>
+                      <span className="stat-value">{orders.length}</span>
                     </div>
                   </div>
                   <div className="mini-stat glass">
@@ -142,8 +147,52 @@ const ProfilePage = ({ userInfo, onLogout }) => {
               </div>
             )}
             
+            {activeSection === 'orders' && (
+              <div className="profile-orders">
+                <h2 className="section-title left small">My <span className="gradient-text">Orders</span></h2>
+                {orders.length > 0 ? (
+                  <div className="orders-history">
+                    {orders.map(order => (
+                      <div key={order._id} className="user-order-card glass">
+                        <div className="order-main-info">
+                          <div className="order-id-grp">
+                            <span className="label">Order ID</span>
+                            <span className="val">#{order._id.slice(-6)}</span>
+                          </div>
+                          <div className="order-status-grp">
+                             <span className={`status-pill ${order.status.toLowerCase().replace(/\s+/g, '-')}`}>{order.status}</span>
+                             <span className={`status-pill ${order.paymentStatus.toLowerCase()}`}>{order.paymentStatus}</span>
+                          </div>
+                        </div>
+                        <div className="order-items-preview">
+                          {order.items.map((item, i) => (
+                            <div key={i} className="preview-item">
+                               <img src={item.image && item.image.startsWith('http') ? item.image : `${config.API_URL}${item.image}`} alt="" />
+                               <div className="preview-info">
+                                  <span className="name">{item.name}</span>
+                                  <span className="price">₹{item.price}</span>
+                               </div>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="order-footer">
+                          <span className="date">{new Date(order.createdAt).toLocaleDateString()}</span>
+                          <span className="total">Total: ₹{order.total}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="empty-state">
+                    <ShoppingBag size={48} className="text-muted" />
+                    <p>You haven't placed any orders yet.</p>
+                  </div>
+                )}
+              </div>
+            )}
+            
             {/* Other sections can be added here */}
-            {['orders', 'addresses', 'settings'].includes(activeSection) && (
+            {['addresses', 'settings'].includes(activeSection) && (
               <div className="placeholder-section">
                 <h2 className="section-title left small">{activeSection} <span className="gradient-text">Section</span></h2>
                 <p>This feature is coming soon to your premium dashboard!</p>

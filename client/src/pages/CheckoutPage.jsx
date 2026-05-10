@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircle, CreditCard, Truck } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const CheckoutPage = ({ cart, clearCart, settings }) => {
+const CheckoutPage = ({ cart, clearCart, settings, userInfo }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
@@ -25,10 +25,11 @@ const CheckoutPage = ({ cart, clearCart, settings }) => {
     
     try {
       // 1. Create order on backend
-      const { data } = await axios.post('/api/orders', {
+      const { data } = await api.post('/api/orders', {
         customer: formData,
         items: cart,
-        total: totalPrice
+        total: totalPrice,
+        userId: userInfo?._id
       });
 
       setOrderId(data.order._id);
@@ -52,7 +53,7 @@ const CheckoutPage = ({ cart, clearCart, settings }) => {
         handler: async (response) => {
           try {
             // 3. Verify payment on backend
-            await axios.post('/api/orders/verify', response);
+            await api.post('/api/orders/verify', response);
             setIsOrdered(true);
             clearCart();
           } catch (err) {

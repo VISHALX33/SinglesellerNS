@@ -318,6 +318,16 @@ app.get('/api/orders/track/:id', async (req, res) => {
     }
 });
 
+// Get user's orders
+app.get('/api/orders/myorders', protect, async (req, res) => {
+    try {
+        const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
+        res.json(orders);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch orders' });
+    }
+});
+
 // Routes
 // EJS Route
 app.get('/', (req, res) => {
@@ -443,7 +453,7 @@ app.get('/api/categories/summary', async (req, res) => {
 app.post('/api/orders', async (req, res) => {
     try {
         const isTestMode = process.env.PAYMENT_MODE === 'test';
-        const { customer, items, total } = req.body;
+        const { customer, items, total, userId } = req.body;
 
         // 1. Check stock for all items
         for (const item of items) {
@@ -469,6 +479,7 @@ app.post('/api/orders', async (req, res) => {
         }
 
         const newOrder = new Order({
+            user: userId || null,
             customer,
             items,
             total,

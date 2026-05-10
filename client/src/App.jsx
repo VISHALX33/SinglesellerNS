@@ -159,7 +159,7 @@ function App() {
         <Route path="/collections" element={<CollectionsPage onAddToCart={addToCart} toggleWishlist={toggleWishlist} wishlist={wishlist} searchQuery={searchQuery} settings={settings} />} />
         <Route path="/product/:id" element={<ProductDetailsPage onAddToCart={addToCart} toggleWishlist={toggleWishlist} wishlist={wishlist} settings={settings} />} />
         <Route path="/wishlist" element={<WishlistPage wishlist={wishlist} toggleWishlist={toggleWishlist} onAddToCart={addToCart} settings={settings} />} />
-        <Route path="/checkout" element={<CheckoutPage cart={cart} clearCart={clearCart} settings={settings} />} />
+        <Route path="/checkout" element={<CheckoutPage cart={cart} clearCart={clearCart} settings={settings} userInfo={userInfo} />} />
         <Route path="/auth" element={<AuthPage onLogin={setUserInfo} />} />
         <Route path="/profile" element={userInfo ? <ProfilePage userInfo={userInfo} onLogout={handleLogout} /> : <AuthPage onLogin={setUserInfo} />} />
         <Route 
