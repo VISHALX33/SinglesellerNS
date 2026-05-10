@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
+import config from '../config';
 import { 
   LayoutDashboard, 
   Package, 
@@ -51,11 +52,11 @@ const AdminDashboard = ({ settings, setSettings, refreshSettings }) => {
   const fetchData = async () => {
     try {
       const [shoesRes, ordersRes, analyticsRes, reviewsRes, contactsRes] = await Promise.all([
-        axios.get('/api/shoes'),
-        axios.get('/api/admin/orders'),
-        axios.get('/api/admin/analytics'),
-        axios.get('/api/admin/reviews'),
-        axios.get('/api/admin/contacts')
+        api.get('/api/shoes'),
+        api.get('/api/admin/orders'),
+        api.get('/api/admin/analytics'),
+        api.get('/api/admin/reviews'),
+        api.get('/api/admin/contacts')
       ]);
       setShoes(shoesRes.data);
       setOrders(ordersRes.data);
@@ -70,7 +71,7 @@ const AdminDashboard = ({ settings, setSettings, refreshSettings }) => {
   const handleDeleteReview = async (shoeId, reviewId) => {
     if (!window.confirm('Delete this review?')) return;
     try {
-      await axios.delete(`/api/admin/reviews/${shoeId}/${reviewId}`);
+      await api.delete(`/api/admin/reviews/${shoeId}/${reviewId}`);
       fetchData();
     } catch (err) {
       alert('Failed to delete review');
@@ -99,7 +100,7 @@ const AdminDashboard = ({ settings, setSettings, refreshSettings }) => {
     e.preventDefault();
     setIsSaving(true);
     try {
-      await axios.post('/api/settings', settings);
+      await api.post('/api/settings', settings);
       if (refreshSettings) refreshSettings();
       alert('Settings updated successfully');
     } catch (err) {
@@ -175,9 +176,9 @@ const AdminDashboard = ({ settings, setSettings, refreshSettings }) => {
 
     try {
       if (editingShoe) {
-        await axios.put(`/api/shoes/${editingShoe._id}`, submissionData);
+        await api.put(`/api/shoes/${editingShoe._id}`, submissionData);
       } else {
-        await axios.post('/api/shoes', submissionData);
+        await api.post('/api/shoes', submissionData);
       }
       setIsModalOpen(false);
       fetchData();
@@ -194,14 +195,14 @@ const AdminDashboard = ({ settings, setSettings, refreshSettings }) => {
 
   const handleDelete = async (id) => {
     if (window.confirm('Delete this product?')) {
-      await axios.delete(`/api/shoes/${id}`);
+      await api.delete(`/api/shoes/${id}`);
       fetchData();
     }
   };
 
   const handleUpdateContactStatus = async (id, newStatus) => {
     try {
-      await axios.patch(`/api/admin/contacts/${id}`, { status: newStatus });
+      await api.patch(`/api/admin/contacts/${id}`, { status: newStatus });
       fetchData();
     } catch (err) {
       alert('Failed to update status');
@@ -211,7 +212,7 @@ const AdminDashboard = ({ settings, setSettings, refreshSettings }) => {
   const handleDeleteContact = async (id) => {
     if (window.confirm('Delete this message?')) {
       try {
-        await axios.delete(`/api/admin/contacts/${id}`);
+        await api.delete(`/api/admin/contacts/${id}`);
         fetchData();
       } catch (err) {
         alert('Failed to delete message');
@@ -221,7 +222,7 @@ const AdminDashboard = ({ settings, setSettings, refreshSettings }) => {
 
   const handleUpdateOrderStatus = async (id, newStatus) => {
     try {
-      await axios.post(`/api/admin/orders/update-status/${id}`, { status: newStatus });
+      await api.post(`/api/admin/orders/update-status/${id}`, { status: newStatus });
       fetchData();
     } catch (err) {
       alert('Failed to update status');
@@ -416,7 +417,7 @@ const AdminDashboard = ({ settings, setSettings, refreshSettings }) => {
                     {shoes.map(shoe => (
                       <tr key={shoe._id}>
                         <td className="prod-cell">
-                          <img src={shoe.images && shoe.images[0] ? (shoe.images[0].startsWith('http') ? shoe.images[0] : `http://localhost:5001${shoe.images[0]}`) : ''} alt="" />
+                          <img src={shoe.images && shoe.images[0] ? (shoe.images[0].startsWith('http') ? shoe.images[0] : `${config.API_URL}${shoe.images[0]}`) : ''} alt="" />
                           <span>{shoe.name}</span>
                         </td>
                         <td>{settings.currency}{shoe.price}</td>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from './api';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Cart from './components/Cart';
@@ -74,7 +74,7 @@ function App() {
 
   const fetchSettings = async () => {
     try {
-      const res = await axios.get('/api/settings');
+      const res = await api.get('/api/settings');
       setSettings(res.data);
     } catch (err) {
       console.error('Failed to fetch settings', err);
@@ -97,9 +97,7 @@ function App() {
     // If logged in, sync with backend
     if (userInfo) {
       try {
-        await axios.post(`http://localhost:5001/api/users/wishlist/${product._id}`, {}, {
-          headers: { Authorization: `Bearer ${userInfo.token}` }
-        });
+        await api.post(`/api/users/wishlist/${product._id}`);
       } catch (err) {
         console.error('Failed to sync wishlist', err);
       }

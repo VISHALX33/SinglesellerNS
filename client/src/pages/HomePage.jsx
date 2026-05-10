@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
+import config from '../config';
 import { ChevronRight, Zap, Shield, Award, ArrowRight, Truck } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 
@@ -60,8 +61,8 @@ const HomePage = ({ onAddToCart, toggleWishlist, wishlist = [], settings }) => {
     const fetchData = async () => {
       try {
         const [shoesRes, catRes] = await Promise.all([
-          axios.get('/api/shoes'),
-          axios.get('/api/categories/summary')
+          api.get('/api/shoes'),
+          api.get('/api/categories/summary')
         ]);
         setFeaturedShoes(shoesRes.data.filter(s => s.isFeatured).slice(0, 4));
         setCategories(catRes.data);
@@ -219,7 +220,7 @@ const HomePage = ({ onAddToCart, toggleWishlist, wishlist = [], settings }) => {
         </div>
         <div className="categories-grid">
           {categories.map((cat, idx) => {
-            const catImage = cat.image?.startsWith('http') ? cat.image : `http://localhost:5001${cat.image}`;
+            const catImage = cat.image?.startsWith('http') ? cat.image : `${config.API_URL}${cat.image}`;
             return (
               <motion.div
                 key={cat.name}

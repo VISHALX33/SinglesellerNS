@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Lock, User, ArrowRight, Globe } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 
 const AuthPage = ({ onLogin }) => {
   const [isLogin, setIsLogin] = useState(true);
@@ -22,7 +22,7 @@ const AuthPage = ({ onLogin }) => {
 
     try {
       const endpoint = isLogin ? '/api/users/login' : '/api/users/register';
-      const { data } = await axios.post(`http://localhost:5001${endpoint}`, formData);
+      const { data } = await api.post(endpoint, formData);
       
       localStorage.setItem('userInfo', JSON.stringify(data));
       onLogin(data);
