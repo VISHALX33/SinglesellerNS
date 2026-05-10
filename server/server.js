@@ -19,7 +19,10 @@ const razorpay = new Razorpay({
 });
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: ['https://singlesellerns.netlify.app', 'http://localhost:5173', 'http://localhost:3000'],
+    credentials: true
+}));
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
