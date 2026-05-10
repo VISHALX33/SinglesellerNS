@@ -118,19 +118,24 @@ app.get('/api/users/profile', protect, async (req, res) => {
 
 app.post('/api/users/wishlist/:shoeId', protect, async (req, res) => {
     try {
-        const user = await User.findById(req.user._id);
         const shoeId = req.params.shoeId;
+        const user = await User.findById(req.user._id);
         
+        if (!user) return res.status(404).json({ error: 'User not found' });
+
         const isWishlisted = user.wishlist.some(id => id.toString() === shoeId);
         
-        if (isWishlisted) {
-            user.wishlist = user.wishlist.filter(id => id.toString() !== shoeId);
-        } else {
-            user.wishlist.push(shoeId);
-        }
+        const update = isWishlisted 
+            ? { $pull: { wishlist: shoeId } } 
+            : { $addToSet: { wishlist: shoeId } };
+
+        const updatedUser = await User.findByIdAndUpdate(
+            req.user._id, 
+            update, 
+            { new: true }
+        ).select('-password');
         
-        await user.save();
-        res.json(user.wishlist);
+        res.json(updatedUser.wishlist);
     } catch (err) {
         console.error('Wishlist update error:', err);
         res.status(500).json({ error: 'Failed to update wishlist', details: err.message });
