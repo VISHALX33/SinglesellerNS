@@ -116,6 +116,30 @@ app.get('/api/users/profile', protect, async (req, res) => {
     }
 });
 
+// Add address
+app.post('/api/users/address', protect, async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id);
+        user.addresses.push(req.body);
+        await user.save();
+        res.json(user.addresses);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to add address' });
+    }
+});
+
+// Delete address
+app.delete('/api/users/address/:addressId', protect, async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id);
+        user.addresses = user.addresses.filter(a => a._id.toString() !== req.params.addressId);
+        await user.save();
+        res.json(user.addresses);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to delete address' });
+    }
+});
+
 app.post('/api/users/wishlist/:shoeId', protect, async (req, res) => {
     try {
         const shoeId = req.params.shoeId;

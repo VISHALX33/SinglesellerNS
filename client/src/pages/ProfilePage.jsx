@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { User, ShoppingBag, Heart, MapPin, LogOut, ChevronRight, Settings } from 'lucide-react';
+import { User, ShoppingBag, Heart, MapPin, LogOut, ChevronRight, Settings, Trash2 } from 'lucide-react';
 import api from '../api';
 import config from '../config';
 import ProductCard from '../components/ProductCard';
@@ -9,6 +9,15 @@ const ProfilePage = ({ userInfo, onLogout }) => {
   const [profile, setProfile] = useState(null);
   const [orders, setOrders] = useState([]);
   const [activeSection, setActiveSection] = useState('overview');
+  const [showAddressForm, setShowAddressForm] = useState(false);
+  const [newAddress, setNewAddress] = useState({
+    street: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    country: 'India',
+    isDefault: false
+  });
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -28,6 +37,35 @@ const ProfilePage = ({ userInfo, onLogout }) => {
     };
     if (userInfo) fetchProfile();
   }, [userInfo]);
+
+  const handleAddAddress = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await api.post('/api/users/address', newAddress);
+      setProfile({ ...profile, addresses: data });
+      setShowAddressForm(false);
+      setNewAddress({
+        street: '',
+        city: '',
+        state: '',
+        zipCode: '',
+        country: 'India',
+        isDefault: false
+      });
+    } catch (err) {
+      alert('Failed to add address');
+    }
+  };
+
+  const handleDeleteAddress = async (id) => {
+    if (!window.confirm('Delete this address?')) return;
+    try {
+      const { data } = await api.delete(`/api/users/address/${id}`);
+      setProfile({ ...profile, addresses: data });
+    } catch (err) {
+      alert('Failed to delete address');
+    }
+  };
 
   if (!profile) return <div className="loading-screen">Loading Profile...</div>;
 
@@ -188,12 +226,74 @@ const ProfilePage = ({ userInfo, onLogout }) => {
             
             {activeSection === 'addresses' && (
               <div className="profile-addresses">
-                <h2 className="section-title left small">My <span className="gradient-text">Addresses</span></h2>
+                <div className="section-header-flex">
+                  <h2 className="section-title left small">My <span className="gradient-text">Addresses</span></h2>
+                  <button className="btn-secondary small" onClick={() => setShowAddressForm(!showAddressForm)}>
+                    {showAddressForm ? 'Cancel' : 'Add New Address'}
+                  </button>
+                </div>
+
+                {showAddressForm && (
+                  <motion.form 
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    className="address-form glass" 
+                    onSubmit={handleAddAddress}
+                  >
+                    <div className="form-group">
+                      <label>Street Address</label>
+                      <input 
+                        type="text" required value={newAddress.street}
+                        onChange={e => setNewAddress({...newAddress, street: e.target.value})}
+                        placeholder="123 Main St"
+                      />
+                    </div>
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label>City</label>
+                        <input 
+                          type="text" required value={newAddress.city}
+                          onChange={e => setNewAddress({...newAddress, city: e.target.value})}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>State</label>
+                        <input 
+                          type="text" required value={newAddress.state}
+                          onChange={e => setNewAddress({...newAddress, state: e.target.value})}
+                        />
+                      </div>
+                    </div>
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label>ZIP Code</label>
+                        <input 
+                          type="text" required value={newAddress.zipCode}
+                          onChange={e => setNewAddress({...newAddress, zipCode: e.target.value})}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Country</label>
+                        <input 
+                          type="text" required value={newAddress.country}
+                          onChange={e => setNewAddress({...newAddress, country: e.target.value})}
+                        />
+                      </div>
+                    </div>
+                    <button type="submit" className="btn-primary">Save Address</button>
+                  </motion.form>
+                )}
+
                 {profile.addresses?.length > 0 ? (
                   <div className="address-grid">
                     {profile.addresses.map((addr, idx) => (
                       <div key={idx} className="address-card glass">
-                        {addr.isDefault && <span className="default-badge">Default</span>}
+                        <div className="address-card-header">
+                           {addr.isDefault && <span className="default-badge">Default</span>}
+                           <button className="delete-addr-btn" onClick={() => handleDeleteAddress(addr._id)}>
+                              <Trash2 size={16} />
+                           </button>
+                        </div>
                         <p><strong>Street:</strong> {addr.street}</p>
                         <p><strong>City:</strong> {addr.city}</p>
                         <p><strong>State/ZIP:</strong> {addr.state} - {addr.zipCode}</p>
